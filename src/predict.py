@@ -1,2 +1,6 @@
+def predict():
+    # print("OK!!!")
+    return "ISSO AIIIIIIIIIIII"
+
 if __name__ == '__main__':
-    pass
+    print("API OK!")
