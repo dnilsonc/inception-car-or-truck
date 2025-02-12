@@ -1,3 +1,61 @@
+# name: Deploy para AWS EC2
+
+# on:
+#   push:
+#     branches:
+#       - deploy  # Executa o deploy quando algo for enviado para a branch deploy
+
+# jobs:
+#   deploy:
+#     runs-on: ubuntu-latest
+
+#     steps:
+#       - name: Checkout do código
+#         uses: actions/checkout@v4
+
+#       # - name: Install dependencies
+#       #   run: |
+#       #     pip install -r requirements.txt
+
+#       - name: Configurar AWS CLI
+#         uses: aws-actions/configure-aws-credentials@v2
+#         with:
+#           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+#           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+#           aws-region: us-east-2  # Ajuste para sua região
+
+#       - name: Login no Amazon ECR
+#         run: |
+#           aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 339712704449.dkr.ecr.us-east-2.amazonaws.com
+
+#       - name: Build e Push da Imagem Docker
+#         run: |
+#           docker build -t meu-repositorio .
+#           docker tag meu-repositorio:latest 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+#           docker push 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+
+#       - name: Acessar EC2 via SSH e atualizar container
+#         uses: appleboy/ssh-action@master
+#         with:
+#           host: ${{ secrets.EC2_HOST }}
+#           username: ubuntu
+#           key: ${{ secrets.EC2_SSH_KEY }}
+#           script: |
+#             # Puxar a imagem mais recente do ECR
+#             docker pull 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+            
+#             # Parar e remover o container antigo
+#             docker stop meu-container || true
+#             docker rm meu-container || true
+
+#             # Rodar o novo container com mapeamento de portas correto (80:8000)
+#             docker run -d -p 80:8000 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+
+#             # Rodar o DVC para garantir que os dados estão atualizados
+#             # cd /caminho/para/seu/projeto  # Navegue até o diretório onde o DVC está configurado
+#             dvc pull  # Baixar os dados do DVC no EC2
+# #####################
+
 name: Deploy para AWS EC2
 
 on:
@@ -12,10 +70,6 @@ jobs:
     steps:
       - name: Checkout do código
         uses: actions/checkout@v4
-
-      - name: Install dependencies
-        run: |
-          pip install -r requirements.txt
 
       - name: Configurar AWS CLI
         uses: aws-actions/configure-aws-credentials@v2
@@ -41,17 +95,23 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Puxar a imagem mais recente do ECR
+            # Navegar até o diretório onde o DVC está configurado
+            # cd /caminho/para/seu/projeto  
+
+            # Garantir que o DVC está instalado
+            pip install dvc[s3]
+
+            # Baixar os dados versionados pelo DVC
+            dvc pull  
+
+            # Atualizar o container
             docker pull 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
             
             # Parar e remover o container antigo
             docker stop meu-container || true
             docker rm meu-container || true
 
-            # Rodar o novo container com mapeamento de portas correto (80:8000)
-            docker run -d -p 80:8000 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
-
-            # Rodar o DVC para garantir que os dados estão atualizados
-            # cd /caminho/para/seu/projeto  # Navegue até o diretório onde o DVC está configurado
-            dvc pull  # Baixar os dados do DVC no EC2
-#$
+            # Rodar o novo container com bind mount para acessar os dados do DVC
+            docker run -d -p 80:8000 --name meu-container \
+              -v /caminho/para/seu/projeto:/app \
+              339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
