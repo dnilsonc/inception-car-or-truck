@@ -17,7 +17,9 @@ model = tf_keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Train the model
-history = model.fit(train_ds, validation_data=val_ds, epochs=1)
+# history = model.fit(train_ds, validation_data=val_ds, epochs=1)
+
+print("treinou")
 
 # Save the model
 model.save("models/model.keras")

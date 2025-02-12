@@ -1,0 +1,12 @@
+stages:
+  preprocess:
+    cmd: python src/data_loader.py
+    deps:
+      - src/data_loader.py
+
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+    outs:
+      - models/model.keras
