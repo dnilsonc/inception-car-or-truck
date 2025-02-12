@@ -55,7 +55,6 @@
 #             # cd /caminho/para/seu/projeto  # Navegue até o diretório onde o DVC está configurado
 #             dvc pull  # Baixar os dados do DVC no EC2
 # #####################
-
 name: Deploy para AWS EC2
 
 on:
@@ -95,9 +94,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Navegar até o diretório onde o DVC está configurado
-            # cd /caminho/para/seu/projeto  
-
             # Garantir que o DVC está instalado
             pip install dvc[s3]
 
