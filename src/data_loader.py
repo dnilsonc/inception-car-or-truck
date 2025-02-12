@@ -24,8 +24,8 @@ ds_val_ = image_dataset_from_directory(
 def convert_to_float(image, label):
     return tf.image.convert_image_dtype(image, tf.float32), label
 
-ds_train = ds_train_.map(convert_to_float)
-ds_val = ds_val_.map(convert_to_float)
+train_ds = ds_train_.map(convert_to_float)
+val_ds = ds_val_.map(convert_to_float)
 
 if __name__ == '__main__':
     print('Done!')
