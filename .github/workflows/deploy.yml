@@ -28,11 +28,11 @@ jobs:
         run: |
           aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 339712704449.dkr.ecr.us-east-2.amazonaws.com
 
-      # - name: Build e Push da Imagem Docker
-      #   run: |
-      #     docker build -t meu-repositorio .
-      #     docker tag meu-repositorio:latest 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
-      #     docker push 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+      - name: Build e Push da Imagem Docker
+        run: |
+          docker build -t meu-repositorio .
+          docker tag meu-repositorio:latest 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+          docker push 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
 
       - name: Acessar EC2 via SSH e atualizar container
         uses: appleboy/ssh-action@master
