@@ -1,33 +1,43 @@
-name: Deploy to AWS ECR
+name: Deploy para AWS EC2
 
 on:
   push:
     branches:
-      - deploy  # Ou qualquer outra branch que você usar
+      - deploy  # Executa o deploy quando algo for enviado para a branch main
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-    - name: Checkout repository
-      uses: actions/checkout@v2
+      - name: Checkout do código
+        uses: actions/checkout@v4
 
-    - name: Set up AWS CLI
-      uses: aws-actions/configure-aws-credentials@v1
-      with:
-        aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-        aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-        aws-region: us-east-2  # Região ajustada para o seu ECR e EC2
+      - name: Configurar AWS CLI
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-2  # Ajuste para sua região
 
-    - name: Log in to Amazon ECR
-      uses: aws-actions/amazon-ecr-login@v1
+      - name: Login no Amazon ECR
+        run: |
+          aws ecr get-login-password --region us-east-2 | docker login --username AWS --password-stdin 339712704449.dkr.ecr.us-east-2.amazonaws.com
 
-    - name: Build Docker image
-      run: |
-        docker build -t my-app .
-        docker tag my-app:latest ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
+      - name: Build e Push da Imagem Docker
+        run: |
+          docker build -t meu-repositorio .
+          docker tag meu-repositorio:latest 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+          docker push 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
 
-    - name: Push Docker image to ECR
-      run: |
-        docker push ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ secrets.AWS_REGION }}.amazonaws.com/my-app:latest
+      - name: Acessar EC2 via SSH e atualizar container
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.EC2_HOST }}
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            docker pull 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+            docker stop meu-container || true
+            docker rm meu-container || true
+            docker run -d -p 80:80 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
