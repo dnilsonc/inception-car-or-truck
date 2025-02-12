@@ -41,3 +41,4 @@ jobs:
             docker stop meu-container || true
             docker rm meu-container || true
             docker run -d -p 80:80 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+# 
