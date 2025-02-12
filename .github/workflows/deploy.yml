@@ -51,6 +51,4 @@ jobs:
             docker rm meu-container || true
 
             # Rodar o novo container com bind mount para acessar os dados do DVC
-            docker run -d -p 80:8000 --name meu-container \
-              -v /caminho/para/seu/projeto:/app \
-              339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+            docker run -d -p 80:8000 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
