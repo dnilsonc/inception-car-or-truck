@@ -12,3 +12,8 @@ app = FastAPI()
 @app.get("/predict/")
 def get_prediction():
     return {"prediction": predict()}
+
+
+@app.get("/test/")
+def test():
+    return {"Testando API... OK!"}
