@@ -37,8 +37,12 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
+            # Puxar a imagem mais recente do ECR
             docker pull 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
+            
+            # Parar e remover o container antigo
             docker stop meu-container || true
             docker rm meu-container || true
-            docker run -d -p 80:80 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
-# 
+
+            # Rodar o novo container com mapeamento de portas correto (80:8000)
+            docker run -d -p 80:8000 --name meu-container 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
