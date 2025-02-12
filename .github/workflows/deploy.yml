@@ -3,7 +3,7 @@ name: Deploy para AWS EC2
 on:
   push:
     branches:
-      - deploy  # Executa o deploy quando algo for enviado para a branch main
+      - deploy  # Executa o deploy quando algo for enviado para a branch deploy
 
 jobs:
   deploy:
