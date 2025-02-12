@@ -11,7 +11,6 @@ COPY . .
 # Instalar dependências, incluindo DVC
 RUN pip install --no-cache-dir -r requirements.txt
 RUN pip install --no-cache-dir dvc dvc-s3  # Se precisar usar DVC com AWS S3
-RUN dvc pull 
-RUN dvc repro
 
-CMD ["uvicorn", "api.app:app", "--host", "0.0.0.0", "--port", "8000"]
+# Definir o comando para rodar o DVC pull e repro, seguidos do uvicorn
+CMD dvc pull && dvc repro && uvicorn api.app:app --host 0.0.0.0 --port 8000
