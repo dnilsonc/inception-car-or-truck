@@ -17,7 +17,7 @@ model = tf_keras.models.Sequential([
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
 # Treinamento do modelo
-history = model.fit(train_ds, validation_data=val_ds, epochs=10)  # Ajuste o número de épocas conforme necessário
+history = model.fit(train_ds, validation_data=val_ds, epochs=30) # Ajuste o número de épocas conforme necessário
 
 # Salvar o modelo treinado
 model.save('models/model.keras', save_format='tf')  # Salvar o modelo em formato TensorFlow
