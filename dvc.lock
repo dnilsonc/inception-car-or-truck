@@ -12,10 +12,10 @@ stages:
     deps:
     - path: src/train.py
       hash: md5
-      md5: 497fa9ca480d1f0887aa8fe2738bbdfd
-      size: 945
+      md5: 7db5ad0b7fbb198b80fd5bd02514d12b
+      size: 976
     outs:
     - path: models/model.keras
       hash: md5
-      md5: ea05758700fbd65512147948c681c406
-      size: 26899484
+      md5: ed0f9092310835a73ee13aa3fd6c3a3d
+      size: 26900508

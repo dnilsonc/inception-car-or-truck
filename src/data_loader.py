@@ -8,16 +8,22 @@ path = kagglehub.dataset_download("ryanholbrook/car-or-truck")
 # Load the data
 ds_train_ = image_dataset_from_directory(
     path + '/train', 
-    image_size=(224, 224), 
-    batch_size=32,
-    shuffle=True
+    labels='inferred',
+    label_mode='binary',
+    image_size=[128, 128],
+    interpolation='nearest',
+    batch_size=64,
+    shuffle=True,
 )
 
 ds_val_ = image_dataset_from_directory(
     path + '/valid', 
-    image_size=(224, 224), 
-    batch_size=32,
-    shuffle=True
+    labels='inferred',
+    label_mode='binary',
+    image_size=[128, 128],
+    interpolation='nearest',
+    batch_size=64,
+    shuffle=False,
 )
 
 # Data Pipeline
