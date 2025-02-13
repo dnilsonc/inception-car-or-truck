@@ -23,6 +23,6 @@ history = model.fit(train_ds, validation_data=val_ds, epochs=30) # Ajuste o núm
 # Salvar o modelo treinado
 model.save('models/model.keras', save_format='tf')  # Salvar o modelo em formato TensorFlow
 
-# Confirmar que o processo foi concluído
+# Confirmar que o processo foi concluído FIX
 if __name__ == '__main__':
     print('Modelo treinado e salvo com sucesso!')
