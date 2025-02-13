@@ -17,7 +17,7 @@ def preprocess_image(img_path):
     """Carrega e pré-processa a imagem para a entrada do modelo."""
     try:
         img = image.load_img(img_path, target_size=(128, 128))  # Ajuste para o tamanho esperado
-        # img_array = image.img_to_array(img) / 255.0  # Normalizar para [0,1]
+        img_array = image.img_to_array(img) #/ 255.0  # Normalizar para [0,1]
         img_array = np.expand_dims(img_array, axis=0)  # Adiciona dimensão de batch
         return img_array
     except Exception as e:
