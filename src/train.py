@@ -9,6 +9,7 @@ pretrained_base = hub.KerasLayer("https://www.kaggle.com/models/google/inception
 # Build the model
 model = tf_keras.models.Sequential([
     pretrained_base,
+    tf_keras.layers.Dropout(0.2),
     tf_keras.layers.Dense(6, activation='relu'),
     tf_keras.layers.Dense(1, activation='sigmoid')
 ])
