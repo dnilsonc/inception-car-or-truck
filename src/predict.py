@@ -41,7 +41,7 @@ def preprocess_image(img_path):
         return None
 
 
-def predict(img_path):
+def predict(img_path = "data/valid/Car/05118.jpeg"):
     """Recebe uma imagem e retorna a classe prevista pelo modelo."""
     img_array = preprocess_image(img_path)
     
