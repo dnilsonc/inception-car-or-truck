@@ -1,4 +1,4 @@
-import tf_keras 
+import tf_keras
 import tensorflow_hub as hub
 
 from data_loader import train_ds, val_ds
@@ -12,17 +12,15 @@ model = tf_keras.models.Sequential([
     tf_keras.layers.Dense(6, activation='relu'),
     tf_keras.layers.Dense(1, activation='sigmoid')
 ])
-
-# Compile the model
+# Compilar o modelo
 model.compile(optimizer='adam', loss='binary_crossentropy', metrics=['accuracy'])
 
-# Train the model
-# history = model.fit(train_ds, validation_data=val_ds, epochs=1)
+# Treinamento do modelo
+history = model.fit(train_ds, validation_data=val_ds, epochs=1)  # Ajuste o número de épocas conforme necessário
 
-print("treinou")
+# Salvar o modelo treinado
+model.save('models/model.keras', save_format='tf')  # Salvar o modelo em formato TensorFlow
 
-# Save the model
-model.save("models/model.keras")
-
+# Confirmar que o processo foi concluído
 if __name__ == '__main__':
-    print('Done!')
+    print('Modelo treinado e salvo com sucesso!')
