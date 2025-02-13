@@ -37,12 +37,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # # Garantir que o DVC está instalado
-            # pip install dvc[s3]
-
-            # # Baixar os dados versionados pelo DVC
-            # dvc pull  
-
             # Atualizar o container
             docker pull 339712704449.dkr.ecr.us-east-2.amazonaws.com/meu-repositorio:latest
             
