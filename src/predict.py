@@ -1,24 +1,8 @@
-# from tensorflow import keras
-
-# # Load the model
-# model = keras.saving.load_model("models/model.keras")
-
-# # Evaluate the model
-# model.evaluate(val_ds)
-
-
-# def predict():
-#     # print("OK!!!")
-#     return "ISSO AIIIIIIIIIIII"
-
-# if __name__ == '__main__':
-#     print("API OK!")
-
 import tf_keras
 import tensorflow_hub as hub
 import numpy as np
 
-from tensorflow.keras.preprocessing import image
+from tensorflow.keras.preprocessing import image # type: ignore
 
 # Carregar o modelo salvo
 try:
