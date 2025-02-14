@@ -3,13 +3,15 @@ import tensorflow_hub as hub
 
 from data_loader import train_ds, val_ds
 
-# Load the pretrained model
+# Load the pretrained model    
 pretrained_base = hub.KerasLayer("https://www.kaggle.com/models/google/inception-v1/TensorFlow2/classification/2", trainable=False)
 
 # Build the model
 model = tf_keras.models.Sequential([
     pretrained_base,
     tf_keras.layers.Flatten(),
+    tf_keras.layers.Dense(6, activation='relu'),
+    tf_keras.layers.Dense(6, activation='relu'),
     tf_keras.layers.Dense(6, activation='relu'),
     tf_keras.layers.Dropout(0.2),
     tf_keras.layers.Dense(1, activation='sigmoid')
