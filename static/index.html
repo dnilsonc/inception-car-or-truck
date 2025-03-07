@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Classificador de Veículos</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Classificador de Veículos</h1>
+        <p>Envie uma imagem para classificação entre Carro e Caminhão</p>
+        
+        <div class="upload-box">
+            <input type="file" id="imageInput" accept="image/*">
+            <label for="imageInput" class="upload-label">Selecionar Imagem</label>
+        </div>
+        
+        <div class="image-preview" id="imagePreview">
+            <p>Nenhuma imagem selecionada</p>
+        </div>
+        
+        <button id="analyzeButton">Analisar Imagem</button>
+        
+        <div class="result" id="result"></div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
