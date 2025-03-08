@@ -3,7 +3,6 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.staticfiles import StaticFiles
 import os
 import sys
-import os
 
 # Adiciona o diretório raiz ao PYTHONPATH para importar módulos internos
 sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '..')))
@@ -49,3 +48,7 @@ async def predict_image(file: UploadFile = File(...)):
 @app.get("/test")
 def test_api():
     return {"status": "API operacional!", "version": "1.0"}
+
+@app.get("/")
+async def root():
+    return {"message": "API funcionando. Acesse /static/index.html para o frontend."}

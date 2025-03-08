@@ -28,7 +28,7 @@ document.getElementById('analyzeButton').addEventListener('click', async functio
         const formData = new FormData();
         formData.append('file', file);
 
-        const response = await fetch('http://localhost:8000/predict/', {
+        const response = await fetch('http://54.175.48.121:8000/predict/', {
             method: 'POST',
             body: formData
         });
