@@ -1,0 +1,7 @@
+stages:
+  train:
+    cmd: python src/train.py
+    deps:
+      - src/train.py
+    outs:
+      - models/model.keras

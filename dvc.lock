@@ -1,0 +1,21 @@
+schema: '2.0'
+stages:
+  preprocess:
+    cmd: python src/data_loader.py
+    deps:
+    - path: src/data_loader.py
+      hash: md5
+      md5: 03a5735541fe7ce72a71390b475d754a
+      size: 720
+  train:
+    cmd: python src/train.py
+    deps:
+    - path: src/train.py
+      hash: md5
+      md5: d34ecfb65102657f9d76814ce8035829
+      size: 1082
+    outs:
+    - path: models/model.keras
+      hash: md5
+      md5: 839f88fcebd1737902e214a9fdd4e1db
+      size: 26914380
