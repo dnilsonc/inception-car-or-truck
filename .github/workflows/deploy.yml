@@ -41,6 +41,8 @@ jobs:
       # Passo 4: Transferir a imagem e atualizar o container na EC2
       - name: Acessar EC2 via SSH e atualizar container
         uses: appleboy/ssh-action@master
+        env:
+          WORKSPACE: ${{ github.workspace }}  # Passa o valor de $GITHUB_WORKSPACE
         with:
           host: ${{ secrets.EC2_HOST }}
           username: ubuntu
@@ -49,6 +51,6 @@ jobs:
             ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
             docker stop car-truck-container || true
             docker rm car-truck-container || true
-            scp -i <(echo "${{ secrets.EC2_SSH_KEY }}") $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
+            scp -i <(echo "${{ secrets.EC2_SSH_KEY }}") $WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
             docker load -i /home/ubuntu/car-truck-api.tar
             docker run -d -p 80:80 --name car-truck-container car-truck-api
