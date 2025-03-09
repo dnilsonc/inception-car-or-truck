@@ -32,7 +32,8 @@ jobs:
       - name: Build da Imagem Docker
         run: |
           docker build -t car-truck-api .
-          docker save car-truck-api > car-truck-api.tar
+          # Salvar a imagem no caminho correto ($GITHUB_WORKSPACE)
+          docker save car-truck-api -o $GITHUB_WORKSPACE/car-truck-api.tar
 
       # Passo 4: Transferir a imagem e atualizar o container na EC2
       - name: Acessar EC2 via SSH e atualizar container
@@ -42,7 +43,7 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Adicionar o host ao known_hosts (evita problemas de verificação de host)
+            # Adicionar o host ao known_hosts
             ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
             
             # Parar e remover o container antigo
