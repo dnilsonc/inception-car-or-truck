@@ -43,7 +43,7 @@ jobs:
           ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
           echo "${{ secrets.EC2_SSH_KEY }}" > /tmp/ssh_key.pem
           chmod 600 /tmp/ssh_key.pem
-          scp -i /tmp/ssh_key.pem $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
+          scp -i ${{ secrets.EC2_SSH_KEY }} $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
           rm /tmp/ssh_key.pem
 
       # Passo 5: Implantar na EC2
