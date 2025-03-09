@@ -3,13 +3,13 @@
 Este repositório implementa um classificador convolucional para distinguir entre imagens de carros e caminhões, baseado no notebook do Kaggle [The Convolutional Classifier](https://www.kaggle.com/code/ryanholbrook/the-convolutional-classifier).
 
 ## 📌 Visão Geral
-O objetivo deste projeto é treinar uma rede neural convolucional (CNN) utilizando TensorFlow/Keras para classificação de imagens de veículos. O modelo é baseado em técnicas de aprendizado profundo e transfer learning.
+O objetivo deste projeto é criar um modelo de aprendizado profundo capaz de classificar imagens de veículos como carros ou caminhões. Utilizamos uma rede neural convolucional (CNN) treinada com TensorFlow/Keras para realizar essa tarefa.
 
 ## 🚀 Tecnologias Utilizadas
 - Python
-- TensorFlow / Keras
-- NumPy, Pandas, Matplotlib
-- Kaggle Datasets
+- TensorFlow/Keras
+- FastAPI
+- Docker
 
 ## 📂 Estrutura do Repositório
 ```
@@ -53,6 +53,9 @@ Para fazer previsões em novas imagens:
 python src/predict.py --image caminho/para/imagem.jpg
 ```
 O script irá carregar o modelo treinado e prever se a imagem é um carro ou um caminhão.
+
+## 🌐 Teste Online
+Você pode testar o projeto online acessando [este link](http://54.175.48.121/static/index.html).
 
 ## 📌 Referências
 - [The Convolutional Classifier - Kaggle](https://www.kaggle.com/code/ryanholbrook/the-convolutional-classifier)
