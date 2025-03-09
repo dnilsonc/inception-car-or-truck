@@ -67,5 +67,5 @@ jobs:
             # Carregar e executar imagem
             docker load -i /home/ubuntu/car-truck-api.tar
             docker run -d -p 80:80 --name car-truck-container car-truck-api
-            
+            rm /home/ubuntu/car-truck-api.tar
             echo "🚀 Implantação concluída com sucesso!"
