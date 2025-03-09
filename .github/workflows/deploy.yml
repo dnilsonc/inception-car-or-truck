@@ -29,11 +29,24 @@ jobs:
       # Passo 3: Build da imagem Docker
       - name: Build e exportar imagem
         run: |
+          echo "Diretório atual: $PWD"
+          echo "Conteúdo de $GITHUB_WORKSPACE:"
+          ls -la $GITHUB_WORKSPACE
           docker build -t car-truck-api .
-          docker save car-truck-api -o car-truck-api.tar
-          ls -lh car-truck-api.tar  # Verificar tamanho do arquivo
+          docker save car-truck-api -o $GITHUB_WORKSPACE/car-truck-api.tar
+          ls -lh $GITHUB_WORKSPACE/car-truck-api.tar  # Verificar tamanho do arquivo
 
-      # Passo 4: Transferir e implantar
+      # Passo 4: Transferir a imagem para a EC2
+      - name: Transferir a imagem para a EC2
+        run: |
+          echo "Transferindo o arquivo para a EC2..."
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          echo "${{ secrets.EC2_SSH_KEY }}" > /tmp/ssh_key.pem
+          chmod 600 /tmp/ssh_key.pem
+          scp -i /tmp/ssh_key.pem $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
+          rm /tmp/ssh_key.pem
+
+      # Passo 5: Implantar na EC2
       - name: Implantar na EC2
         uses: appleboy/ssh-action@master
         with:
@@ -41,16 +54,6 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Preparar ambiente
-            ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-            
-            # Criar arquivo temporário com a chave
-            echo "${{ secrets.EC2_SSH_KEY }}" > /tmp/ssh_key.pem
-            chmod 600 /tmp/ssh_key.pem
-            
-            # Transferir arquivo usando SCP
-            scp -i private_key.pem $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
-
             # Gerenciar container
             docker stop car-truck-container || true
             docker rm car-truck-container || true
@@ -59,6 +62,4 @@ jobs:
             docker load -i /home/ubuntu/car-truck-api.tar
             docker run -d -p 80:80 --name car-truck-container car-truck-api
             
-            # Limpeza
-            rm /tmp/ssh_key.pem
             echo "🚀 Implantação concluída com sucesso!"
