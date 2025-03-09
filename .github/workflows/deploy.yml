@@ -49,9 +49,7 @@ jobs:
             chmod 600 /tmp/ssh_key.pem
             
             # Transferir arquivo usando SCP
-            scp -o StrictHostKeyChecking=no -i /tmp/ssh_key.pem \
-              runner@github.com:$GITHUB_WORKSPACE/car-truck-api.tar \
-              /home/ubuntu/car-truck-api.tar
+            scp -i private_key.pem $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
 
             # Gerenciar container
             docker stop car-truck-container || true
