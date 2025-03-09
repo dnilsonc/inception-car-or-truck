@@ -1,11 +1,10 @@
 name: Deploy para AWS EC2 (Simplificado)
 
 on:
-  # Acionar via push na branch "deploy" OU manualmente pelo botão
   push:
     branches:
       - deploy
-  workflow_dispatch:  # Permite acionar manualmente pela UI do GitHub
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -21,19 +20,23 @@ jobs:
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
             echo "Conexão SSH bem-sucedida!"
-            whoami  # Deve retornar "ubuntu"
-            docker --version  # Verifica se o Docker está instalado
+            whoami
+            docker --version
 
       # Passo 2: Checkout do código
       - name: Checkout do código
         uses: actions/checkout@v4
 
-      # Passo 3: Build da imagem Docker
+      # Passo 3: Build da imagem Docker com depuração
       - name: Build da Imagem Docker
         run: |
+          echo "Diretório atual: $PWD"
+          echo "Conteúdo de $GITHUB_WORKSPACE:"
+          ls -la $GITHUB_WORKSPACE
           docker build -t car-truck-api .
-          # Salvar a imagem no caminho correto ($GITHUB_WORKSPACE)
           docker save car-truck-api -o $GITHUB_WORKSPACE/car-truck-api.tar
+          echo "Após salvar a imagem, conteúdo de $GITHUB_WORKSPACE:"
+          ls -la $GITHUB_WORKSPACE
 
       # Passo 4: Transferir a imagem e atualizar o container na EC2
       - name: Acessar EC2 via SSH e atualizar container
@@ -43,16 +46,9 @@ jobs:
           username: ubuntu
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            # Adicionar o host ao known_hosts
             ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
-            
-            # Parar e remover o container antigo
             docker stop car-truck-container || true
             docker rm car-truck-container || true
-            
-            # Transferir a imagem para a EC2
             scp -i <(echo "${{ secrets.EC2_SSH_KEY }}") $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
-            
-            # Carregar a imagem e rodar o container
             docker load -i /home/ubuntu/car-truck-api.tar
             docker run -d -p 80:80 --name car-truck-container car-truck-api
