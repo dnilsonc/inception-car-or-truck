@@ -40,10 +40,16 @@ jobs:
       - name: Transferir a imagem para a EC2
         run: |
           echo "Transferindo o arquivo para a EC2..."
-          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts
+          # Criar diretório .ssh se não existir
+          mkdir -p ~/.ssh
+          # Adicionar chave do host ao known_hosts (ignorar erro se o arquivo não existir inicialmente)
+          ssh-keyscan -H ${{ secrets.EC2_HOST }} >> ~/.ssh/known_hosts 2>/dev/null || true
+          # Criar arquivo temporário com a chave SSH
           echo "${{ secrets.EC2_SSH_KEY }}" > /tmp/ssh_key.pem
           chmod 600 /tmp/ssh_key.pem
-          scp -i ${{ secrets.EC2_SSH_KEY }} $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
+          # Transferir o arquivo usando SCP
+          scp -i /tmp/ssh_key.pem $GITHUB_WORKSPACE/car-truck-api.tar ubuntu@${{ secrets.EC2_HOST }}:/home/ubuntu/
+          # Limpeza
           rm /tmp/ssh_key.pem
 
       # Passo 5: Implantar na EC2
