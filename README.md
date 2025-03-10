@@ -1,68 +1,38 @@
-# The Convolutional Classifier: Car or Truck
+# The Convolutional Classifier: Car or Truck 🚗🚚
 
-Este repositório implementa um classificador convolucional para distinguir entre imagens de carros e caminhões, baseado no notebook do Kaggle [The Convolutional Classifier](https://www.kaggle.com/code/ryanholbrook/the-convolutional-classifier).
+Este projeto implementa um classificador convolucional para distinguir entre imagens de carros 🚗 e caminhões 🚚. O objetivo é demonstrar a aplicação de redes neurais convolucionais (CNNs) para reconhecimento de imagens, integrando técnicas modernas de deep learning e deploy de aplicações.
 
-## 📌 Visão Geral
-O objetivo deste projeto é criar um modelo de aprendizado profundo capaz de classificar imagens de veículos como carros ou caminhões. Utilizamos uma rede neural convolucional (CNN) treinada com TensorFlow/Keras para realizar essa tarefa.
+## Visão Geral 🌟
 
-## 🚀 Tecnologias Utilizadas
-- Python
-- TensorFlow/Keras
-- FastAPI
-- Docker
+O modelo foi desenvolvido para identificar e classificar imagens de veículos em duas categorias: **Car** e **Truck**. Além do treinamento robusto utilizando TensorFlow/Keras, o projeto conta com uma API implementada em FastAPI, permitindo que as predições sejam realizadas de forma simples e prática. A solução é conteinerizada com Docker, o que facilita a implantação e a escalabilidade em diferentes ambientes.
 
-## 📂 Estrutura do Repositório
-```
-/                         # Diretório raiz
-├── data/                 # Arquivos do dataset
-├── notebooks/            # Notebooks Jupyter com experimentos
-├── models/               # Modelos treinados
-├── src/                  # Códigos-fonte do projeto
-│   ├── train.py          # Script para treinamento do modelo
-│   ├── evaluate.py       # Avaliação do modelo
-│   ├── predict.py        # Predições em novas imagens
-├── requirements.txt      # Dependências do projeto
-└── README.md             # Este arquivo
-```
+## Tecnologias Utilizadas 🛠️
 
-## 📥 Instalação
-Clone o repositório e instale as dependências:
-```bash
-git clone https://github.com/seu-usuario/the-convolutional-classifier.git
-cd the-convolutional-classifier
-pip install -r requirements.txt
-```
+- **Python 🐍**: Linguagem utilizada para o desenvolvimento do modelo e da aplicação.
+- **TensorFlow/Keras 🤖**: Frameworks empregados na construção e treinamento da CNN.
+- **FastAPI ⚡**: Framework para criação da API, possibilitando a integração e a realização de predições em tempo real.
+- **Docker 🐳**: Garante portabilidade e consistência no deploy da aplicação.
+- **CI/CD 🔄**: Pipelines de integração e deploy contínuos que automatizam testes e validações, assegurando a qualidade e agilidade no desenvolvimento.
 
-## 📊 Treinamento do Modelo
-Para treinar o modelo a partir do zero, execute:
-```bash
-python src/train.py
-```
-O script carregará os dados, aplicando pré-processamento e treinamento com TensorFlow/Keras.
+## Funcionalidades ✨
 
-## 🔍 Avaliação
-Para avaliar o desempenho do modelo:
-```bash
-python src/evaluate.py
-```
-Isso gerará métricas como acurácia, matriz de confusão e curvas ROC/AUC.
+- **Classificação de Imagens**: Identifica se uma imagem contém um carro 🚗 ou um caminhão 🚚 com alta precisão.
+- **API para Predições**: Interface RESTful que facilita a integração com outros sistemas e aplicações.
+- **Deploy Simplificado**: Utiliza Docker para um deploy rápido e confiável em qualquer ambiente.
+- **Automação com CI/CD**: Pipelines que garantem testes automatizados e deploy contínuo, promovendo um ciclo de desenvolvimento ágil e seguro.
 
-## 🖼️ Testando Predições
-Para fazer previsões em novas imagens:
-```bash
-python src/predict.py --image caminho/para/imagem.jpg
-```
-O script irá carregar o modelo treinado e prever se a imagem é um carro ou um caminhão.
+## Teste Online 🌐
 
-## 🌐 Teste Online
-Você pode testar o projeto online acessando [este link](http://54.175.48.121/static/index.html).
+Experimente a aplicação diretamente através deste link: [Teste Online](http://3.145.90.115/static/index.html)
 
-## 📌 Referências
+## Referências 📚
+
 - [The Convolutional Classifier - Kaggle](https://www.kaggle.com/code/ryanholbrook/the-convolutional-classifier)
 
-## 📜 Licença
-Este projeto é distribuído sob a Licença MIT. Veja o arquivo LICENSE para mais detalhes.
+## Licença 📜
+
+Distribuído sob a Licença MIT. Consulte o arquivo `LICENSE` para mais detalhes.
 
 ---
-Sinta-se à vontade para contribuir ou sugerir melhorias! 🚀
 
+Sinta-se à vontade para contribuir e sugerir melhorias! 🚀
