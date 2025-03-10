@@ -32,9 +32,12 @@ jobs:
           echo "Diretório atual: $PWD"
           echo "Conteúdo de $GITHUB_WORKSPACE:"
           ls -la $GITHUB_WORKSPACE
-          docker build -t car-truck-api .
-          docker save car-truck-api -o $GITHUB_WORKSPACE/car-truck-api.tar
-          ls -lh $GITHUB_WORKSPACE/car-truck-api.tar  # Verificar tamanho do arquivo
+
+          tar -cf $GITHUB_WORKSPACE/car-truck-api.tar models/ static/ src/ main.py Dockerfile requirements.txt
+          
+          # docker build -t car-truck-api .
+          # docker save car-truck-api -o $GITHUB_WORKSPACE/car-truck-api.tar
+          # ls -lh $GITHUB_WORKSPACE/car-truck-api.tar  # Verificar tamanho do arquivo
 
       # Passo 4: Transferir a imagem para a EC2
       - name: Transferir a imagem para a EC2
@@ -64,8 +67,14 @@ jobs:
             docker stop car-truck-container || true
             docker rm car-truck-container || true
             
+            # Descompactar imagem
+            tar -xf /home/ubuntu/car-truck-api.tar
+
+            # Buildar imagem
+            docker build -t car-truck-api .
+
             # Carregar e executar imagem
-            docker load -i /home/ubuntu/car-truck-api.tar
+            # docker load -i /home/ubuntu/car-truck-api.tar
             docker run -d -p 80:80 --name car-truck-container car-truck-api
             rm /home/ubuntu/car-truck-api.tar
             echo "🚀 Implantação concluída com sucesso!"
